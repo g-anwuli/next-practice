@@ -2,9 +2,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Link from "next/link";
-import { Suspense } from "react";
 import ErrorBoundary from "./components/ErrorBoundary";
-import Loading from "./loading";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -29,9 +27,7 @@ export default function RootLayout({
             <Link href={"/api"}>404</Link>
             <Link href={"/"}>home</Link>
           </nav>
-          <ErrorBoundary>
-            <Suspense fallback={<Loading />}>{children}</Suspense>
-          </ErrorBoundary>
+          <ErrorBoundary>{children}</ErrorBoundary>
         </div>
       </body>
     </html>

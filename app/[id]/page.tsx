@@ -3,16 +3,25 @@ import { Metadata } from "next/types";
 import { Suspense } from "react";
 import UserPosts from "./component/UserPosts";
 import UserComponent from "./component/UserComponent";
-import { Loading2 } from "./component/loading";
+import { Loading, Loading2 } from "./component/loading";
 
 const usersUrl = "https://jsonplaceholder.typicode.com/users/";
 const postUrl = "https://jsonplaceholder.typicode.com/todos?userId=";
 
 type Prop = { params: { id: string } };
 
-export const metadata: Metadata = {
-  title: "user",
-  description: "A page about a user",
+export const generateMetadata = async ({ params }: Prop): Promise<Metadata> => {
+  const { data }: { data: UserType } = await axios.get(usersUrl + params.id);
+  return {
+    title: data.name,
+    description: `My name is ${data.name}, this is my email ${data.email}`,
+    icons: { icon: `https://robohash.org/${data.name}` },
+    openGraph: {
+      title: data.name,
+      description: `My name is ${data.name}, this is my email ${data.email}`,
+      images: `https://robohash.org/${data.name}`,
+    },
+  };
 };
 
 async function User({ params }: Prop) {
@@ -21,7 +30,9 @@ async function User({ params }: Prop) {
 
   return (
     <div className="flex flex-col md:flex-row w-full justify-between gap-20 lg:gap-40">
-      <UserComponent data={data} />
+      <Suspense fallback={<Loading />}>
+        <UserComponent data={data} />
+      </Suspense>
       <Suspense fallback={<Loading2 />}>
         <UserPosts promise={userPost} />
       </Suspense>

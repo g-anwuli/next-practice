@@ -2,7 +2,7 @@ import React from "react";
 
 export const Loading1 = () => {
   return (
-    <div className="border p-4 sm:p-5 rounded-lg max-w-sm shadow-md h-max md:sticky top-[60px]">
+    <div className="border p-4 sm:p-5 rounded-lg w-full max-w-sm shadow-md h-max md:sticky top-[60px]">
       Loading...1
     </div>
   );

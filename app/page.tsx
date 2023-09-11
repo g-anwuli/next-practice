@@ -2,9 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 const getUsers = async () => {
-  const res = await fetch("https://jsonplaceholder.typicode.com/users", {
-    cache: "no-store",
-  });
+  const res = await fetch("https://jsonplaceholder.typicode.com/users");
   const data: UserType[] = await res.json();
   return data;
 };

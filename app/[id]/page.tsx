@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Metadata } from "next/types";
+import { Metadata, ResolvingMetadata } from "next/types";
 import { Suspense } from "react";
 import UserPosts from "./component/UserPosts";
 import UserComponent from "./component/UserComponent";
@@ -9,8 +9,12 @@ const postUrl = "https://jsonplaceholder.typicode.com/todos?userId=";
 
 type Prop = { params: { id: string } };
 
-export const generateMetadata = async ({ params }: Prop): Promise<Metadata> => {
+export const generateMetadata = async (
+  { params }: Prop,
+  parent: ResolvingMetadata
+): Promise<Metadata> => {
   const { data }: { data: UserType } = await axios.get(usersUrl + params.id);
+  const previousImages = (await parent).openGraph?.images || [];
   return {
     title: data.name,
     description: `My name is ${data.name}, this is my email ${data.email}`,
@@ -18,7 +22,7 @@ export const generateMetadata = async ({ params }: Prop): Promise<Metadata> => {
     openGraph: {
       title: data.name,
       description: `My name is ${data.name}, this is my email ${data.email}`,
-      images: `https://robohash.org/${data.name}`,
+      images: [`https://robohash.org/${data.name}`, ...previousImages],
     },
   };
 };

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Metadata, ResolvingMetadata } from "next/types";
+import { Metadata } from "next/types";
 import UserPosts from "./component/UserPosts";
 import UserComponent from "./component/UserComponent";
 import { Suspense } from "react";
@@ -12,10 +12,8 @@ type Prop = { params: { id: string } };
 
 export const generateMetadata = async (
   { params }: Prop,
-  parent: ResolvingMetadata
 ): Promise<Metadata> => {
-  const { data }: { data: UserType } = await axios.get(usersUrl + params.id);
-  const previousImages = (await parent).openGraph?.images || [];
+  const { data }: { data: UserType } = await fetch(usersUrl + params.id).then((res) => res.json());
   return {
     title: data.name,
     description: `My name is ${data.name}, this is my email ${data.email}`,
@@ -23,7 +21,7 @@ export const generateMetadata = async (
     openGraph: {
       title: data.name,
       description: `My name is ${data.name}, this is my email ${data.email}`,
-      images: [`https://robohash.org/${data.name}`, ...previousImages],
+      images: [`https://robohash.org/${data.name}`],
     },
   };
 };

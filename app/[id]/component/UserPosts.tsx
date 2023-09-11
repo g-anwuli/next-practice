@@ -2,11 +2,13 @@ import React from "react";
 import Image from "next/image";
 
 type Prop = {
-  promise: Promise<{ data: Post[] }>;
+  promise: Promise<Post[]>;
 };
 
 async function UserPosts({ promise }: Prop) {
-  const { data } = await promise;
+  const data = await promise;
+  // console.log(data);
+  
   const content = data.map((post) => (
     <div
       key={post.id}

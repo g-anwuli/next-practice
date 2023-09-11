@@ -1,4 +1,3 @@
-import axios from "axios";
 import { Metadata } from "next/types";
 import UserPosts from "./component/UserPosts";
 import UserComponent from "./component/UserComponent";
@@ -10,8 +9,21 @@ const postUrl = "https://jsonplaceholder.typicode.com/todos?userId=";
 
 type Prop = { params: { id: string } };
 
+const getUser = async (id: string) => {
+  const res = await fetch(usersUrl + id);
+  const data: UserType = await res.json();
+  return data;
+};
+
+const getPosts = async (id: string) => {
+  const res = await fetch(postUrl + id);
+  const data: Post[] = await res.json();
+  return data;
+};
+
 export const generateMetadata = async ({ params }: Prop): Promise<Metadata> => {
-  const { data }: { data: UserType } = await axios.get(usersUrl + params.id);
+  const data = await getUser(params.id);
+
   return {
     title: data.name,
     description: `My name is ${data.name}, this is my email ${data.email}`,
@@ -25,8 +37,8 @@ export const generateMetadata = async ({ params }: Prop): Promise<Metadata> => {
 };
 
 function User({ params }: Prop) {
-  const userData: Promise<{ data: UserType }> = axios.get(usersUrl + params.id);
-  const userPost: Promise<{ data: Post[] }> = axios.get(postUrl + params.id);
+  const userData = getUser(params.id);
+  const userPost = getPosts(params.id);
 
   return (
     <div className="flex flex-col md:flex-row w-full justify-between gap-20 lg:gap-40">

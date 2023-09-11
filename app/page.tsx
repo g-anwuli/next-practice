@@ -1,14 +1,15 @@
-import axios from "axios";
 import Image from "next/image";
 import Link from "next/link";
 
-const usersUrl = "https://jsonplaceholder.typicode.com/users";
-const photoUrl = "https://robohash.org/";
+const getUsers = async () => {
+  const res = await fetch("https://jsonplaceholder.typicode.com/users");
+  const data: UserType[] = await res.json();
+  return data;
+};
 
 export default async function Home() {
-  const { data } = await axios.get(usersUrl);
-  console.log(data);
-  
+  const data = await getUsers();
+
   return (
     <main className="space-y-2 flex-1 py-5">
       {data.map((user: any) => (
@@ -19,7 +20,7 @@ export default async function Home() {
         >
           {user.name}{" "}
           <Image
-            src={photoUrl + user.name}
+            src={`https://robohash.org/${user.name}`}
             alt="user pic"
             width={40}
             height={40}

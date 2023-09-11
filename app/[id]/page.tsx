@@ -1,6 +1,5 @@
 import axios from "axios";
 import { Metadata, ResolvingMetadata } from "next/types";
-import { Suspense } from "react";
 import UserPosts from "./component/UserPosts";
 import UserComponent from "./component/UserComponent";
 

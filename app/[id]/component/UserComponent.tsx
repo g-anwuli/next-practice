@@ -5,13 +5,11 @@ type Prop = {
   data: UserType;
 };
 
-const photoUrl = "https://robohash.org/";
-
 function UserComponent({ data }: Prop) {
   return (
     <div className="border p-4 sm:p-5 rounded-lg max-w-sm space-y-3 shadow-md h-max md:sticky top-[60px]">
       <Image
-        src={photoUrl + data.name}
+        src={`https://robohash.org/${data.name}`}
         alt="user pic"
         className="rounded-md bg-neutral-400 max-w-full aspect-square border"
         width={400}

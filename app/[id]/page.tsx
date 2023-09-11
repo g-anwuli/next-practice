@@ -10,10 +10,8 @@ const postUrl = "https://jsonplaceholder.typicode.com/todos?userId=";
 
 type Prop = { params: { id: string } };
 
-export const generateMetadata = async (
-  { params }: Prop,
-): Promise<Metadata> => {
-  const { data }: { data: UserType } = await fetch(usersUrl + params.id).then((res) => res.json());
+export const generateMetadata = async ({ params }: Prop): Promise<Metadata> => {
+  const { data }: { data: UserType } = await axios.get(usersUrl + params.id);
   return {
     title: data.name,
     description: `My name is ${data.name}, this is my email ${data.email}`,
@@ -32,10 +30,10 @@ function User({ params }: Prop) {
 
   return (
     <div className="flex flex-col md:flex-row w-full justify-between gap-20 lg:gap-40">
-      <Suspense fallback={<Loading1/>}>
+      <Suspense fallback={<Loading1 />}>
         <UserComponent promise={userData} />
       </Suspense>
-      <Suspense fallback={<Loading2/>}>
+      <Suspense fallback={<Loading2 />}>
         <UserPosts promise={userPost} />
       </Suspense>
     </div>

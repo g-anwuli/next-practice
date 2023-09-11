@@ -10,13 +10,17 @@ const postUrl = "https://jsonplaceholder.typicode.com/todos?userId=";
 type Prop = { params: { id: string } };
 
 const getUser = async (id: string) => {
-  const res = await fetch(usersUrl + id);
+  const res = await fetch(usersUrl + id, {
+    cache: "no-store",
+  });
   const data: UserType = await res.json();
   return data;
 };
 
 const getPosts = async (id: string) => {
-  const res = await fetch(postUrl + id);
+  const res = await fetch(postUrl + id, {
+    cache: "no-store",
+  });
   const data: Post[] = await res.json();
   return data;
 };

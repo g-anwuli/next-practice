@@ -2,10 +2,11 @@ import React from "react";
 import Image from "next/image";
 
 type Prop = {
-  data: UserType;
+  promise: Promise<{ data: UserType }>;
 };
 
-function UserComponent({ data }: Prop) {
+async function UserComponent({ promise }: Prop) {
+  const { data } = await promise;
   return (
     <div className="border p-4 sm:p-5 rounded-lg max-w-sm space-y-3 shadow-md h-max md:sticky top-[60px]">
       <Image

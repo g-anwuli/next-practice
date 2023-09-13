@@ -21,6 +21,8 @@ const getPosts = async (id: string) => {
   return data;
 };
 
+export const dynamicParams = true
+
 export const generateMetadata = async ({ params }: Prop): Promise<Metadata> => {
   const data = await getUser(params.id);
 

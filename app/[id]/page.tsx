@@ -25,6 +25,7 @@ export const generateMetadata = async ({ params }: Prop): Promise<Metadata> => {
   const data = await getUser(params.id);
 
   return {
+    metadataBase: new URL('https://next-practicee.netlify.app/'),
     title: data.name,
     description: `My name is ${data.name}, this is my email ${data.email}`,
     icons: { icon: `https://robohash.org/${data.name}` },
@@ -35,6 +36,14 @@ export const generateMetadata = async ({ params }: Prop): Promise<Metadata> => {
     },
   };
 };
+
+export async function generateStaticParams() {
+  const posts = await fetch(usersUrl).then((res) => res.json())
+ 
+  return posts.map((post:Record<string,any>) => ({
+    id: `${post.id}`,
+  }))
+}
 
 function User({ params }: Prop) {
   const userData = getUser(params.id);

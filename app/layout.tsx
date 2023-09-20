@@ -29,7 +29,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <div className="min-h-screen flex flex-col">
           <nav className="w-full h-[60px] border-b flex justify-end items-center gap-8">
-            <Link href={"/api"}>404</Link>
+            <Link href={"/testing"}>Testing</Link>
             <Link href={"/"}>home</Link>
           </nav>
           {children}
